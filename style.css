@@ -1,0 +1,64 @@
+
+* {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+}
+
+.listElement {
+    
+    padding: 0;
+    height: 600px; 
+    width: 600px;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid red;
+    position: relative;
+}
+
+.bookCover {
+    display: flex;
+    height: 372.5px;
+    width: 249.5px;
+
+
+
+}
+  
+  
+  /* Impostiamo un'altezza fissa per il titolo del libro */
+  .bookTitle {
+    height: 30px;
+  }
+  
+  /* Impostiamo uno stile di testo per il titolo del libro */
+  .bookTitle {
+    font-weight: bold;
+    font-size: 20px;
+  }
+  
+  /* Impostiamo uno stile di testo per il paragrafo degli autori */
+  .authorsPara {
+    font-style: italic;
+    display: none;
+  }
+  
+  /* Nascondiamo il paragrafo della descrizione all'inizio */
+  .descriptionPara {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 999;
+  }
+  
+  /* Mostrare il paragrafo della descrizione quando si fa clic sul titolo */
+  .bookTitle:hover + .descriptionPara {
+    display: block;
+  }
