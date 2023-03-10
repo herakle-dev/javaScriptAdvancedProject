@@ -1,64 +1,208 @@
+/* Stile globale */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f1f1f1;
+}
 
-* {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-
+.lista {
+  list-style-type: none;
+  display: flex;
+  
+  justify-content: center;
+  margin: 0;
+  padding: 0;
 }
 
 .listElement {
-    
-    padding: 0;
-    height: 600px; 
-    width: 600px;
-    text-align: center;
-    justify-content: center;
-    display: flex;
-    flex-wrap: wrap;
-    border: 1px solid red;
-    position: relative;
+  border: 1px solid gray;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 10px;
+  /* width: 300px; */
+  box-shadow: 0px 0px 5px grey;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+.listElement:hover {
+  box-shadow: 0 0 25px #ccc;
+
+
+}
+
+.bookTitle {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.2em;
+}
+
+.authorsPara {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+.descriptionButton {
+  margin-top: 10px;
+}
+
+.cerca label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.cerca input[type="text"] {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-left: 10px;
+  margin-right: 10px;
+
+}
+
+/*.cerca button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.3s ease-in-out;
+}*/
+.descriptionPara:hover {
+  box-shadow: 0 0 5px #a8a7a7;
+  background-color: #cdc1c1;
+}
+
+.authorsPara {
+  font-style: italic;
+  white-space: nowrap;
+  overflow-x: hidden;
+}
+
+.descriptionButton {
+  margin-top: 10px;
+}
+
+.btn {
+  padding: 5px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.btn-info {
+  background-color: #17a2b8;
+  color: #fff;
+  border: none;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.3s ease-in-out;
+}
+
+.btn-info:hover {
+  background-color: #138496;
+}
+
+
+
+.cerca {
+  margin-top: 20px;
+}
+
+
+
+.bySubject {
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.byTitle {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+
+.bookTitle {
+  font-size: 24px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.authorsPara {
+  font-size: 16px;
+  font-style: italic;
+  text-align: center;
+  margin-bottom: 20px;
+  display: block;
 }
 
 .bookCover {
-    display: flex;
-    height: 372.5px;
-    width: 249.5px;
-
-
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: 372.5px;
+  width: 249.5px;
 
 }
-  
-  
-  /* Impostiamo un'altezza fissa per il titolo del libro */
-  .bookTitle {
-    height: 30px;
-  }
-  
-  /* Impostiamo uno stile di testo per il titolo del libro */
-  .bookTitle {
-    font-weight: bold;
-    font-size: 20px;
-  }
-  
-  /* Impostiamo uno stile di testo per il paragrafo degli autori */
-  .authorsPara {
-    font-style: italic;
-    display: none;
-  }
-  
-  /* Nascondiamo il paragrafo della descrizione all'inizio */
-  .descriptionPara {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 10px;
-    z-index: 999;
-  }
-  
-  /* Mostrare il paragrafo della descrizione quando si fa clic sul titolo */
-  .bookTitle:hover + .descriptionPara {
-    display: block;
-  }
+
+.bookCover:hover {
+  transform: scale(1.3);
+  transition: transform 0.3s ease-in-out;
+}
+
+.descriptionButton {
+  margin-top: 10px;
+
+}
+.descriptionPara {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  bottom: 5%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color: black;
+  font-weight: 600;
+  padding: 10px;
+  z-index: 999;
+  text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.logo {
+  text-align: center;
+  font-family: 'Nunito', sans-serif;
+  font-size: 48px;
+  background-image: linear-gradient(to right, #ff00a0, #00ffd8);
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
