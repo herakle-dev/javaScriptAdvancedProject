@@ -51,6 +51,7 @@ body {
   margin-top: 0;
   margin-bottom: 10px;
   font-style: italic;
+ width: 100%;
 }
 
 .descriptionButton {
