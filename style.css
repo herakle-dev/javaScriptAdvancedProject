@@ -35,8 +35,10 @@ body {
   text-align: center;
   font-size: 1.4em;
   overflow: hidden;
-  word-wrap: break-word;
+  white-space: nowrap;
   color: black;
+
+
 }
 .authorsPara {
   text-align: center;
