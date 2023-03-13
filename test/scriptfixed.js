@@ -3,6 +3,7 @@
   const lista = document.getElementById('lista');
   const buttonName = document.getElementById('button2');
   const title = document.getElementById('title');
+
   let counter = 0;
 
   function createElement(tag, className, id) {
@@ -27,8 +28,6 @@
     
     
   }
-
- 
   function getBooks(query, type) {
     let apiUrl;
     if (type === "subject") {
@@ -36,7 +35,6 @@
     } else if (type === "name") {
       apiUrl = `https://openlibrary.org/search.json?title=${query}&limit=50`;
     }
-
     axios.get(apiUrl)
       .then(response => {
         const books = type === "subject" ? response.data.works : response.data.docs;
@@ -63,7 +61,7 @@
             printAuthorsNames(book.author_name, listElement, false);
           }
           descriptionButton.addEventListener('click', () => {
-            
+           
             toggleDescription(listElement, book);         
           })  
                     listElement.appendChild(imgCover);
@@ -106,8 +104,7 @@
   buttonName.addEventListener('click', (e) => {
     e.preventDefault();
     lista.innerHTML = '';
-    getBooks(title.value, "name");
-    
+    getBooks(title.value, "name");  
   })
   buttonSubject.addEventListener('click', (e) => {
     e.preventDefault();
@@ -138,3 +135,25 @@
     
   }}
   
+
+  function searchAuthors() {
+    const url = `https://openlibrary.org/search/authors.json?q=${searchValue}`;
+    axios.get(url)
+      .then(response => {
+        const results = response.data.docs;
+  console.log(response.data.docs)
+        for (let i = 0; i < results.length; i++) {
+          const author = results[i];
+          const key = author.key;
+          const authorUrl = `https://openlibrary.org/authors/${key}`;
+  
+          console.log(`Author URL: ${authorUrl}`);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+  
+  // author pic dall' ogetto key dentro photos https://covers.openlibrary.org/a/id/${photos}-M.jpg
+

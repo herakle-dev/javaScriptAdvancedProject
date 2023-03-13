@@ -84,15 +84,9 @@ body {
 .cerca {
   margin-top: 20px;
 }
-.bySubject {
+.search {
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-bottom: 20px;
-}
-.byTitle {
-  display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   margin-bottom: 20px;
 }
@@ -150,4 +144,9 @@ a:link {
   display: flex;
   justify-content: center;
   margin-bottom: 10px;
+}
+.toast{
+  display: block;
+  background-color: red;
+  color: white;
 }
