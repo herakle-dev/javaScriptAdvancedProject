@@ -15,53 +15,69 @@ function getBooks(searchValue, searchParameter) {
   if (searchParameter === "subject") {
     searchValue = searchValue.trim().toLowerCase();
     if (searchValue.indexOf(' ') !== -1) {
-      let toast = createElement('div','toast error show', 'toast');
+      let toast = createElement('div', 'toast error show', 'toast');
       let message = document.createTextNode('La ricerca per categoria accetta una sola parola');
       toast.appendChild(message);
-lista.appendChild(toast);
-    return;
+      lista.appendChild(toast);
+      return;
     }
-    apiUrl =` https://openlibrary.org/subjects/${searchValue}.json?limit=50`;
-    } else if (searchParameter === "name") {
+    apiUrl = ` https://openlibrary.org/subjects/${searchValue}.json?limit=50`;
+  } else if (searchParameter === "name") {
     apiUrl = `https://openlibrary.org/search.json?title=${searchValue}&limit=50`;
   } else if (searchParameter === "author") {
     apiUrl = `https://openlibrary.org/search.json?author=${searchValue}&limit=50`;
   }
   axios.get(apiUrl)
     .then(response => {
-    
+
       const books = searchParameter === "subject" ? response.data.works : response.data.docs;
-      if (books.length<=0){
-let toast = createElement('div','toast error show', 'toast' )
-let message = document.createTextNode('La ricerca non ha prodotto nessun risultato');
-toast.appendChild(message);
-lista.appendChild(toast);
-setTimeout(() => {
-  lista.removeChild(toast);
-}, 5000);
+
+      if (books.length <= 0) {
+        let toast = createElement('div', 'toast error show', 'toast')
+        let message = document.createTextNode('La ricerca non ha prodotto nessun risultato');
+        toast.appendChild(message);
+        lista.appendChild(toast);
+        setTimeout(() => {
+          lista.removeChild(toast);
+        }, 5000);
       }
       for (let i = 0; i < books.length; i++) {
         const book = books[i];
+        console.log(book)
         let bookTitle = book.title;
         const listElement = createElement(`li`, `col-lg-3 listElement`, `book`);
-        bookTitle = createElement('h2', `bookTitle col-lg-12`, `bookTitle`);
+        bookTitle = createElement('a', `bookTitle col-lg-12`, `bookTitle`);
+        bookTitle.setAttribute('href', `https://openlibrary.org/${book.key}`)
+        bookTitle.setAttribute('target', '_blank')
         let cover = `https://covers.openlibrary.org/b/id/${searchParameter === "subject" ? book.cover_id : book.cover_i}.jpg`;
         const imgCover = createElement('img', `bookCover img col-lg-8`, `bookCover`)
         imgCover.setAttribute("src", cover);
         imgCover.setAttribute("alt", "testo alternativo");
         const descriptionButton = createElement('button', 'descriptionButton btn btn-info  col-lg-12', `btnDescription${counter}`)
-        descriptionButton.innerHTML='Mostra descrizione'
+        descriptionButton.innerHTML = 'Mostra descrizione'
         listElement.appendChild(bookTitle);
         bookTitle.innerHTML += book.title;
         lista.appendChild(listElement);
-        if (searchParameter=== "subject") {
-          printAuthorsNames(book.authors, listElement);
-        } else if (searchParameter=== "name") {
-          printAuthorsNames(book.author_name, listElement, false);
-        } 
+        let printAuthorsName = createElement('a', 'authorsPara col-lg-12', 'authors');
+        if (searchParameter === 'subject') {
+          authorsArray = book.authors[0].name;
+          authorKey = book.authors[0].key;
+          authorKeyLink = ` https://openlibrary.org/${authorKey}`;
+        } else {
+          authorsArray = book.author_name;
+          authorKey = book.author_key
+          authorKeyLink = `https://openlibrary.org/authors/${authorKey}`
+        }
+        printAuthorsName.setAttribute('href', `${authorKeyLink}`);
+        printAuthorsName.setAttribute('target', '_blank');
+        if (!listElement.printAuthorsName) {
+          listElement.printAuthorsName = true;
+          printAuthorsName.innerHTML = authorsArray;
+          listElement.appendChild(printAuthorsName);
+        }
         descriptionButton.addEventListener('click', () => {
-          toggleDescription(listElement, book);         
-        })  
+          toggleDescription(listElement, book);
+        })
         listElement.appendChild(imgCover);
         listElement.appendChild(descriptionButton);
       }
@@ -69,21 +85,6 @@ setTimeout(() => {
     .catch(error => {
       console.log(` ${error}`);
     });
-}
-function printAuthorsNames(authorsArray, listElement, byName = true) {
-  const authorsList = byName
-    ? authorsArray.map(author => author.name).join(', ')
-    : authorsArray.join(', ');
-  
-  let printAuthorsName = createElement('p', 'authorsPara col-lg-12', 'authors');
-  
-  if (!listElement.printAuthorsName) {
-    listElement.printAuthorsName = true;
-    printAuthorsName.innerHTML = authorsList;
-    listElement.appendChild(printAuthorsName);
-  }
-  
-  
 }
 function recuperaDescrizione(work, listElement) {
   const key = work.key;
@@ -98,17 +99,17 @@ function recuperaDescrizione(work, listElement) {
           descriptionPara.innerHTML += descrizione
           listElement.appendChild(descriptionPara)
         }
-        else if (typeof descrizione === "object") {          
+        else if (typeof descrizione === "object") {
           descriptionPara.innerHTML = descrizione.value
           listElement.appendChild(descriptionPara)
-        } else {          
+        } else {
           descriptionPara.innerHTML = descrizione
           listElement.appendChild(descriptionPara)
-        }     
-      } 
+        }
+      }
       listElement.descriptionVisible = true;
-      listElement.descriptionPara = true;   
-           
+      listElement.descriptionPara = true;
+
     })
     .catch(error => {
       console.log(`Errore durante la richiesta della descrizione: ${error}`);
@@ -116,13 +117,13 @@ function recuperaDescrizione(work, listElement) {
 }
 function toggleDescription(listElement, book) {
   const descriptionPara = listElement.querySelector('.descriptionPara');
- const descriptionButton=listElement.querySelector('.descriptionButton')
+  const descriptionButton = listElement.querySelector('.descriptionButton')
   if (listElement.descriptionVisible) {
     // Rimuovi la descrizione
     if (descriptionPara) {
       descriptionPara.remove();
       listElement.descriptionPara = false;
-      descriptionButton.innerHTML=' Mostra descrizione'
+      descriptionButton.innerHTML = ' Mostra descrizione'
     }
     listElement.descriptionVisible = false;
   } else {
@@ -130,16 +131,17 @@ function toggleDescription(listElement, book) {
       // La descrizione è già presente
       recuperaDescrizione(book, listElement);
       listElement.descriptionVisible = true;
-      descriptionButton.innerHTML=' Nascondi descrizione'
+      descriptionButton.innerHTML = ' Nascondi descrizione'
 
-    } 
-  
-}}
+    }
+
+  }
+}
 
 
 buttonSearch.addEventListener('click', (e) => {
   e.preventDefault();
   lista.innerHTML = '';
   getBooks(searchValue.value, searchParameter.value)
- 
+
 })
